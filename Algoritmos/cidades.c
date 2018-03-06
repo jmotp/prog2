@@ -11,7 +11,17 @@
 
 vetor* cidades_load(const char *nomef)
 {
-  return NULL;
+  vetor* buffer= vetor_novo();
+  FILE* ficheiro = fopen(nomef,"rb");
+  if(ficheiro == NULL)return NULL;
+  while(!feof(ficheiro)){
+    cidade load_buffer;
+    if(fread(&load_buffer,sizeof(cidade),1,ficheiro)==1){
+      vetor_insere(buffer,load_buffer,-1);
+     }
+   
+  }
+    return buffer;
 }
 
 int cidades_save(const vetor *vec, const char *nomef)
