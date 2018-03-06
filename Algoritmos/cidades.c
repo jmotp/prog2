@@ -36,7 +36,7 @@ int cidades_save(const vetor *vec, const char *nomef)
 
   int i;
   for( i = 0; i < vec->tamanho;i++){
-    fwrite(&vec->elementos[i],sizeof(cidade),1,ficheiro);
+    if(fwrite(&vec->elementos[i],sizeof(cidade),1,ficheiro)!=1) return -1;
   }
 
   fclose(ficheiro);
