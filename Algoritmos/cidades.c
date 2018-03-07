@@ -52,7 +52,34 @@ int cidades_peek(const char *nomef, const char *nomecidade, cidade *resultado)
 
 int cidades_poke(const char *nomef, const char *nomecidade, cidade nova)
 {
-  return -1;
+  int pos = -1;
+
+  FILE *ficheiro = fopen(nomef,"rb");
+  if(ficheiro==NULL) return -1;
+
+  cidade tmp;
+  while(!feof(ficheiro)){
+
+    fread(&tmp,sizeof(cidade),1,ficheiro);
+    
+    if(strcmp(tmp.nome,nomecidade)==0){
+      pos=(ftell(ficheiro)-sizeof(cidade))/sizeof(cidade);
+      break;
+    }  
+  }
+
+  fclose(ficheiro); //Será necessário???
+
+  ficheiro=fopen(nomef,"wb");
+  if(ficheiro==NULL) return -1;
+
+  fseek(ficheiro,pos*sizeof(cidade),SEEK_SET);
+  fwrite(&nova,sizeof(cidade),1,ficheiro);
+
+  fclose(ficheiro);
+  
+
+  return pos;
 }
 
 int cidades_resort(vetor *vec, char criterio)
