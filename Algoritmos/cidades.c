@@ -11,18 +11,20 @@
 
 vetor* cidades_load(const char *nomef)
 {
+  //vetor temporario
   vetor* buffer= vetor_novo();
-
+  if(buffer== NULL) return NULL;
+  //abertura de ficheiro
   FILE* ficheiro = fopen(nomef,"rb");
-
   if(ficheiro == NULL) return NULL;
-
+  //load dos dados
   while(!feof(ficheiro)){
     cidade load_buffer;
     if(fread(&load_buffer,sizeof(cidade),1,ficheiro)==1){
       vetor_insere(buffer,load_buffer,-1);
      }
   }
+  //return sucesso
   fclose(ficheiro);
   return buffer;
 }
@@ -30,55 +32,53 @@ vetor* cidades_load(const char *nomef)
 
 int cidades_save(const vetor *vec, const char *nomef)
 {
+  //criacao / abertura de ficheiro de output
   FILE* ficheiro = fopen(nomef,"wb");
-
   if(ficheiro==NULL) return -1;
-
+  //save dos dados
   int i;
   for( i = 0; i < vec->tamanho;i++){
     if(fwrite(&vec->elementos[i],sizeof(cidade),1,ficheiro)!=1) return -1;
   }
-
+  //return sucesso
   fclose(ficheiro);
-
   return i;
 }
 
 
 int cidades_peek(const char *nomef, const char *nomecidade, cidade *resultado)
 {
-	return -1;
+  int pos = -1;
+  FILE *ficheiro = fopen(nomef,"rb");
+  if(ficheiro==NULL) return -1;
+  size_t tamanho = sizeof(cidade);
+  cidade tmp;
+  while(!feof(ficheiro)){
+    if(fread(&tmp,tamanho,1,ficheiro)!=1)return -1;
+    if(strcmp(tmp.nome,nomecidade)==0){
+      *resultado=tmp;
+      pos=(ftell(ficheiro)-tamanho)/tamanho;
+      break;
+    }  
+  }
+	return pos;
 }
 
 int cidades_poke(const char *nomef, const char *nomecidade, cidade nova)
 {
-  int pos = -1;
-
-  FILE *ficheiro = fopen(nomef,"rb");
-  if(ficheiro==NULL) return -1;
-
-  cidade tmp;
-  while(!feof(ficheiro)){
-
-    fread(&tmp,sizeof(cidade),1,ficheiro);
-    
-    if(strcmp(tmp.nome,nomecidade)==0){
-      pos=(ftell(ficheiro)-sizeof(cidade))/sizeof(cidade);
-      break;
-    }  
-  }
-
-  fclose(ficheiro); //Será necessário???
-
-  ficheiro=fopen(nomef,"wb");
-  if(ficheiro==NULL) return -1;
-
-  fseek(ficheiro,pos*sizeof(cidade),SEEK_SET);
-  fwrite(&nova,sizeof(cidade),1,ficheiro);
-
-  fclose(ficheiro);
+  cidade disposable;
+  int pos = cidades_peek(nomef,nomecidade,& disposable);
   
-
+  
+  if(pos>=0)
+  {
+    size_t tamanho = sizeof(cidade); 
+    FILE * ficheiro = fopen(nomef,"wb");
+    //escrita no ficheiro, na pos encontrada
+    fseek(ficheiro,-tamanho,SEEK_CUR);
+    if(fwrite(&nova,tamanho,1,ficheiro)!=1) return -1;
+    fclose(ficheiro);
+  } 
   return pos;
 }
 
