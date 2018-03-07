@@ -54,28 +54,32 @@ int cidades_peek(const char *nomef, const char *nomecidade, cidade *resultado)
   size_t tamanho = sizeof(cidade);
   cidade tmp;
   while(!feof(ficheiro)){
-    if(fread(&tmp,tamanho,1,ficheiro)!=1)return -1;
+    if(fread(&tmp,tamanho,1,ficheiro)!=1) return -1;
     if(strcmp(tmp.nome,nomecidade)==0){
-      *resultado=tmp;
+      if(resultado!=NULL) *resultado=tmp;
       pos=(ftell(ficheiro)-tamanho)/tamanho;
       break;
     }  
   }
+  fclose(ficheiro);
 	return pos;
 }
 
 int cidades_poke(const char *nomef, const char *nomecidade, cidade nova)
 {
-  cidade disposable;
-  int pos = cidades_peek(nomef,nomecidade,& disposable);
+  
+  int pos = cidades_peek(nomef,nomecidade,NULL);
   
   
   if(pos>=0)
   {
     size_t tamanho = sizeof(cidade); 
     FILE * ficheiro = fopen(nomef,"wb");
+    if(ficheiro==NULL) return -1;
+
     //escrita no ficheiro, na pos encontrada
     fseek(ficheiro,-tamanho,SEEK_CUR);
+    
     if(fwrite(&nova,tamanho,1,ficheiro)!=1) return -1;
     fclose(ficheiro);
   } 
