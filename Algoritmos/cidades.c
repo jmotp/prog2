@@ -74,11 +74,11 @@ int cidades_poke(const char *nomef, const char *nomecidade, cidade nova)
   if(pos>=0)
   {
     size_t tamanho = sizeof(cidade); 
-    FILE * ficheiro = fopen(nomef,"wb");
+    FILE * ficheiro = fopen(nomef,"rb+");
     if(ficheiro==NULL) return -1;
 
     //escrita no ficheiro, na pos encontrada
-    fseek(ficheiro,-tamanho,SEEK_CUR);
+    fseek(ficheiro,pos*(tamanho),SEEK_SET);
     
     if(fwrite(&nova,tamanho,1,ficheiro)!=1) return -1;
     fclose(ficheiro);
