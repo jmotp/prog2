@@ -101,13 +101,23 @@ int cidades_resort(vetor *vec, char criterio)
   
     for(int i= 1;i < vec->tamanho;i++){
       int j=i;
-      while(j>0&&strcmp(vec->elementos[j].pais,vec->elementos[j-1].pais)<0){
+      while(j>0){
+      if(strcmp(vec->elementos[j].pais,vec->elementos[j-1].pais)<0){
         aux = vec->elementos[j-1];
         vec->elementos[j-1]=vec->elementos[j];
+        vec->elementos[j]=aux;}
+      else if(strcmp(vec->elementos[j].pais,vec->elementos[j-1].pais)==0){
+        if(vec->elementos[j].populacao<vec->elementos[j].populacao){
+          aux = vec->elementos[j-1];
+        vec->elementos[j-1]=vec->elementos[j];
         vec->elementos[j]=aux;
-        j--;
-        //cidade_print(vec,10);
+        }
+        
       }
+        j--;
+      }
+        //cidade_print(vec,10);
+    
     }
   }else if(criterio == 'a'){
     for(int i= 1;i < vec->tamanho;i++){
