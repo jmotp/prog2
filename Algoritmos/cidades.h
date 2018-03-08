@@ -68,6 +68,9 @@ procura as cidades similares em populacao a uma cidade especificada
 *  nota: se cidade referencia nao existe ou nao encontra cidades similares, retorna NULL
 */
 char** cidades_similar (vetor *vec, const char *nomecidade, int deltapop, int *nsimilares);
-void cidade_print(vetor * vec,int size);
-void swap_cidades(vetor * vec,int j);
+void swap_cidades(vetor * vec,int i,int j);
+int partition(vetor * vec,int ini,int fim,char criterio);
+void quicksort(vetor * vec,int ini,int fim, char criterio);
+//void quicksort(vetor arr[], int low, int high);
+//int partition (vetor *vec, int low, int high);
 #endif
