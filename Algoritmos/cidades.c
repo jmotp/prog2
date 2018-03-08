@@ -87,67 +87,44 @@ int cidades_poke(const char *nomef, const char *nomecidade, cidade nova)
 
 void cidade_print(vetor * vec,int size){
   for(int i = 0;i < size;i++){
-    printf("%d\n",vec->elementos[i].area);
+    printf("%d  %d\n",vec->elementos[i].area,vec->elementos[i].populacao);
   }
   printf("\n");
 }
 
 int cidades_resort(vetor *vec, char criterio)
 {
-  cidade aux;
-  cidade a,b;
-  if(criterio == 'p'){
-
-  
-    for(int i= 1;i < vec->tamanho;i++){
-      int j=i;
-      while(j>0){
-      if(strcmp(vec->elementos[j].pais,vec->elementos[j-1].pais)<0){
-        aux = vec->elementos[j-1];
-        vec->elementos[j-1]=vec->elementos[j];
-        vec->elementos[j]=aux;}
-      else if(strcmp(vec->elementos[j].pais,vec->elementos[j-1].pais)==0){
-        if(vec->elementos[j].populacao<vec->elementos[j].populacao){
-          aux = vec->elementos[j-1];
-        vec->elementos[j-1]=vec->elementos[j];
-        vec->elementos[j]=aux;
-        }
-        
-      }
-        j--;
-      }
-        //cidade_print(vec,10);
-    
-    }
-  }else if(criterio == 'a'){
-    for(int i= 1;i < vec->tamanho;i++){
-      int j=i;
-      while(j>0){
-        a=vec->elementos[j-1];
-        b=vec->elementos[j];
-        if(a.area>b.area){
-          swap_cidades(vec,j);
-         // printf("swap\n%d ", j);
-        }else if(a.area==b.area){
-          if(a.populacao>b.populacao){
-            swap_cidades(vec,j);
-          }
-        }
-        j--;
-        //cidade_print(vec,10);
-      }
-    }
-
-  }else return -1;
-
-
-  return 0;
+  cidade_print(vec,10);
+  quicksort(vec,0,vec->tamanho-1);
+  cidade_print(vec,10);
 }
 
-void swap_cidades(vetor * vec,int j){
-  cidade aux = vec->elementos[j-1];
-        vec->elementos[j-1]=vec->elementos[j];
-        vec->elementos[j]=aux;
+void quicksort(vetor *vec,int ini,int fim){
+    if(ini<fim){
+      int pivot = partition(vec,ini,fim);
+      quicksort(vec,ini,pivot);
+      quicksort(vec,pivot+1,fim);
+    }
+}
+
+int partition(vetor * vec,int ini,int fim){
+  cidade pivot = vec->elementos[ini];
+  int i =ini -1;
+  int j = fim+1;
+  while(1){
+    do{i++;}
+    while(vec->elementos[i].area<pivot.area);
+    do{j--;}
+    while(vec->elementos[j].area>pivot.area);
+    if(i>=j)return j;
+    swap_cidades(vec,i,j);
+  }
+}
+
+void swap_cidades(vetor * vec,int i,int j){
+  cidade aux = vec->elementos[i];
+  vec->elementos[i]=vec->elementos[j];
+   vec->elementos[j]=aux;
   
   return;
 }

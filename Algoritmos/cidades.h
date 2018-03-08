@@ -69,5 +69,7 @@ procura as cidades similares em populacao a uma cidade especificada
 */
 char** cidades_similar (vetor *vec, const char *nomecidade, int deltapop, int *nsimilares);
 void cidade_print(vetor * vec,int size);
-void swap_cidades(vetor * vec,int j);
+void swap_cidades(vetor * vec,int i,int j);
+int partition(vetor * vec,int ini,int fim);
+void quicksort(vetor *vec,int ini,int fim);
 #endif
