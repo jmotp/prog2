@@ -18,11 +18,9 @@ vetor* cidades_load(const char *nomef)
   FILE* ficheiro = fopen(nomef,"rb");
   if(ficheiro == NULL) return NULL;
   //load dos dados
-  while(!feof(ficheiro)){
-    cidade load_buffer;
-    if(fread(&load_buffer,sizeof(cidade),1,ficheiro)==1){
+  cidade load_buffer;
+  while(feof(ficheiro)&&fread(&load_buffer,sizeof(cidade),1,ficheiro)){
       vetor_insere(buffer,load_buffer,-1);
-     }
   }
   //return sucesso
   fclose(ficheiro);
