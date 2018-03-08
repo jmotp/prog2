@@ -77,11 +77,11 @@ int cidades_poke(const char *nomef, const char *nomecidade, cidade nova)
   if(pos>=0)
   {
     size_t tamanho = sizeof(cidade); 
-    FILE * ficheiro = fopen(nomef,"wb");
+    FILE * ficheiro = fopen(nomef,"r+b");
     if(ficheiro==NULL) return -1;
 
     //escrita no ficheiro, na pos encontrada
-    fseek(ficheiro,-tamanho,SEEK_CUR);
+    fseek(ficheiro,pos*tamanho,SEEK_CUR);
     
     if(fwrite(&nova,tamanho,1,ficheiro)!=1) return -1;
     fclose(ficheiro);
@@ -92,9 +92,11 @@ int cidades_poke(const char *nomef, const char *nomecidade, cidade nova)
 
 int cidades_resort(vetor *vec, char criterio)
 {
+  if(vec==NULL || !(criterio =='a' || criterio =='p')) return -1;
 
   quicksort(vec,0,(vec->tamanho)-1,criterio);
 
+  return 0;
 }
 
 void quicksort(vetor *vec,int ini,int fim,char criterio){
@@ -103,6 +105,7 @@ void quicksort(vetor *vec,int ini,int fim,char criterio){
       quicksort(vec,ini,pivot-1,criterio);
       quicksort(vec,pivot+1,fim, criterio);
     }
+    return;
 }
 
 int partition(vetor * vec,int ini,int fim,char criterio){
@@ -172,7 +175,7 @@ char** cidades_similar (vetor *vec, const char *nomecidade, int deltapop, int *n
 
   char **vecsimilares;
 
-  vecsimilares=malloc(sizeof(char**));
+  vecsimilares=calloc(1,sizeof(char**));
   vecsimilares[0]=calloc(MAXSTR,sizeof(char*));
 
   (*nsimilares)=0;
@@ -182,7 +185,7 @@ char** cidades_similar (vetor *vec, const char *nomecidade, int deltapop, int *n
     if((vec->elementos[i].populacao - popref)<=deltapop && (vec->elementos[i].populacao - popref)>= -1*deltapop && strcmp(vec->elementos[i].nome,nomecidade)!=0) {
       
       if(nsimilares!=0){
-        vecsimilares=realloc(vecsimilares,((*nsimilares)+1)*sizeof(char*));
+        vecsimilares=realloc(vecsimilares,((*nsimilares)+1)*sizeof(char**));
         vecsimilares[*nsimilares]=calloc(MAXSTR,sizeof(char*));  
       }
 
