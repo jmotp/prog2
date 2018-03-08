@@ -19,16 +19,10 @@ vetor* cidades_load(const char *nomef)
   FILE* ficheiro = fopen(nomef,"rb");
   if(ficheiro == NULL) return NULL;
   //load dos dados
-<<<<<<< HEAD
-  while(!feof(ficheiro)){
-    cidade load_buffer;
-    if(fread(&load_buffer,sizeof(cidade),1,ficheiro)==1){
-=======
   cidade load_buffer;
   while(!feof(ficheiro)&&fread(&load_buffer,sizeof(cidade),1,ficheiro)==1){
->>>>>>> a8623d892b346b1054985561360fb49f6009b6c2
       vetor_insere(buffer,load_buffer,-1);
-     }
+    
   }
   //return sucesso
   fclose(ficheiro);
@@ -93,17 +87,8 @@ int cidades_poke(const char *nomef, const char *nomecidade, cidade nova)
 
 int cidades_resort(vetor *vec, char criterio)
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-  
-  return -1;
-=======
-  cidade aux;
-  cidade a,b;
-  if(criterio == 'p'){
-=======
+
   quicksort(vec,0,(vec->tamanho)-1,criterio);
->>>>>>> quicksort
 
 }
 
@@ -160,7 +145,6 @@ void swap_cidades(vetor * vec,int i,int j){
   vec->elementos[j]=aux;
 
   return;
->>>>>>> a8623d892b346b1054985561360fb49f6009b6c2
 }
 
 char** cidades_similar (vetor *vec, const char *nomecidade, int deltapop, int *nsimilares)
