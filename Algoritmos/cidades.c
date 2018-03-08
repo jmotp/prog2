@@ -10,6 +10,11 @@
 #include <stdio.h>
 #include <string.h>
 
+void swap_cidades(vetor * vec,int i,int j);
+int partition(vetor * vec,int ini,int fim,char criterio);
+void quicksort(vetor * vec,int ini,int fim, char criterio);
+
+
 vetor* cidades_load(const char *nomef)
 {
   //vetor temporario
