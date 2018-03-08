@@ -4,6 +4,7 @@
 /*                    FUNCOES A IMPLEMENTAR                      */
 /*****************************************************************/
 
+#include <time.h>
 #include "cidades.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -19,7 +20,7 @@ vetor* cidades_load(const char *nomef)
   if(ficheiro == NULL) return NULL;
   //load dos dados
   cidade load_buffer;
-  while(feof(ficheiro)&&fread(&load_buffer,sizeof(cidade),1,ficheiro)){
+  while(!feof(ficheiro)&&fread(&load_buffer,sizeof(cidade),1,ficheiro)==1){
       vetor_insere(buffer,load_buffer,-1);
   }
   //return sucesso
@@ -84,9 +85,61 @@ int cidades_poke(const char *nomef, const char *nomecidade, cidade nova)
   return pos;
 }
 
+void cidade_print(vetor * vec,int size){
+  for(int i = 0;i < size;i++){
+    printf("%d\n",vec->elementos[i].area);
+  }
+  printf("\n");
+}
+
 int cidades_resort(vetor *vec, char criterio)
 {
-  return -1;
+  cidade aux;
+  cidade a,b;
+  if(criterio == 'p'){
+
+  
+    for(int i= 1;i < vec->tamanho;i++){
+      int j=i;
+      while(j>0&&strcmp(vec->elementos[j].pais,vec->elementos[j-1].pais)<0){
+        aux = vec->elementos[j-1];
+        vec->elementos[j-1]=vec->elementos[j];
+        vec->elementos[j]=aux;
+        j--;
+        //cidade_print(vec,10);
+      }
+    }
+  }else if(criterio == 'a'){
+    for(int i= 1;i < vec->tamanho;i++){
+      int j=i;
+      while(j>0){
+        a=vec->elementos[j-1];
+        b=vec->elementos[j];
+        if(a.area>b.area){
+          swap_cidades(vec,j);
+         // printf("swap\n%d ", j);
+        }else if(a.area==b.area){
+          if(a.populacao>b.populacao){
+            swap_cidades(vec,j);
+          }
+        }
+        j--;
+        //cidade_print(vec,10);
+      }
+    }
+
+  }else return -1;
+
+
+  return 0;
+}
+
+void swap_cidades(vetor * vec,int j){
+  cidade aux = vec->elementos[j-1];
+        vec->elementos[j-1]=vec->elementos[j];
+        vec->elementos[j]=aux;
+  
+  return;
 }
 
 char** cidades_similar (vetor *vec, const char *nomecidade, int deltapop, int *nsimilares)
