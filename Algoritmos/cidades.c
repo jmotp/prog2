@@ -85,65 +85,47 @@ int cidades_poke(const char *nomef, const char *nomecidade, cidade nova)
   return pos;
 }
 
+void cidade_print(vetor * vec,int size){
+  for(int i = 0;i < size;i++){
+    printf("%d  %d\n",vec->elementos[i].area,vec->elementos[i].populacao);
+  }
+  printf("\n");
+}
 
 int cidades_resort(vetor *vec, char criterio)
 {
-  quicksort(vec,0,(vec->tamanho)-1,criterio);
-
+  cidade_print(vec,10);
+  quicksort(vec,0,vec->tamanho-1);
+  cidade_print(vec,10);
 }
 
-void quicksort(vetor *vec,int ini,int fim,char criterio){
+void quicksort(vetor *vec,int ini,int fim){
     if(ini<fim){
-      int pivot = partition(vec,ini,fim, criterio);
-      quicksort(vec,ini,pivot-1,criterio);
-      quicksort(vec,pivot+1,fim, criterio);
+      int pivot = partition(vec,ini,fim);
+      quicksort(vec,ini,pivot);
+      quicksort(vec,pivot+1,fim);
     }
 }
 
-int partition(vetor * vec,int ini,int fim,char criterio){
-  cidade pivot = vec->elementos[fim];
+int partition(vetor * vec,int ini,int fim){
+  cidade pivot = vec->elementos[ini];
   int i =ini -1;
-  if(criterio=='a'){
-  for (int j = ini; j <= fim- 1; j++)
-    {
-        if (vec->elementos[j].area < pivot.area)
-        {
-            i++;
-            swap_cidades(vec,i,j);
-        }else if(vec->elementos[j].area == pivot.area){
-              if(vec->elementos[j].populacao<pivot.populacao){
-                i++;
-                swap_cidades(vec,i,j);
-              }
-        }
-    }
+  int j = fim+1;
+  while(1){
+    do{i++;}
+    while(vec->elementos[i].area<pivot.area);
+    do{j--;}
+    while(vec->elementos[j].area>pivot.area);
+    if(i>=j)return j;
+    swap_cidades(vec,i,j);
   }
-  else if(criterio=='p'){
-    for (int j = ini; j <= fim- 1; j++)
-    {
-        if (strcmp(vec->elementos[j].pais,pivot.pais)<0)
-        {
-            i++;
-            swap_cidades(vec,i,j);
-        }else if(strcmp(vec->elementos[j].pais,pivot.pais)==0){
-              if(vec->elementos[j].populacao<pivot.populacao){
-                i++;
-                swap_cidades(vec,i,j);
-              }
-        }
-    }
-  }
-
-  swap_cidades(vec,i+1,fim);
-  return i+1;
 }
-
 
 void swap_cidades(vetor * vec,int i,int j){
   cidade aux = vec->elementos[i];
   vec->elementos[i]=vec->elementos[j];
-  vec->elementos[j]=aux;
-
+   vec->elementos[j]=aux;
+  
   return;
 }
 
