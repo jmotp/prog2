@@ -175,26 +175,23 @@ char** cidades_similar (vetor *vec, const char *nomecidade, int deltapop, int *n
 
   char **vecsimilares;
 
-  vecsimilares=calloc(1,sizeof(char**));
-  vecsimilares[0]=calloc(MAXSTR,sizeof(char*));
-
+  vecsimilares=calloc(1,sizeof(char*));
   (*nsimilares)=0;
   
   for(i=0; i<vec->tamanho ; i++){
     
     if((vec->elementos[i].populacao - popref)<=deltapop && (vec->elementos[i].populacao - popref)>= -1*deltapop && strcmp(vec->elementos[i].nome,nomecidade)!=0) {
       
-      if(nsimilares!=0){
-        vecsimilares=realloc(vecsimilares,((*nsimilares)+1)*sizeof(char**));
-        vecsimilares[*nsimilares]=calloc(MAXSTR,sizeof(char*));  
-      }
+      vecsimilares=realloc(vecsimilares,((*nsimilares)+1)*sizeof(char*));
+      vecsimilares[*nsimilares]=calloc(MAXSTR,sizeof(char));
+      
 
       strcpy(vecsimilares[*nsimilares],vec->elementos[i].nome);
       (*nsimilares)++;
+      
 
     }
   }
-
   if((*nsimilares)==0) return NULL;
 
   return vecsimilares;
