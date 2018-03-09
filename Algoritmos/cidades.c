@@ -119,11 +119,11 @@ int partition(vetor * vec,int ini,int fim,char criterio){
         if (vec->elementos[j].area < pivot_area)
         {
             i++;
-            swap_cidades(vec,i,j);
+            if(j!=i)swap_cidades(vec,i,j);
         }else if(vec->elementos[j].area == pivot_area){
               if(vec->elementos[j].populacao<pivot_populacao){
                 i++;
-                swap_cidades(vec,i,j);
+                if(j!=i)swap_cidades(vec,i,j);
               }
         }
     }
@@ -134,17 +134,17 @@ int partition(vetor * vec,int ini,int fim,char criterio){
         if (strcmp(vec->elementos[j].pais,pivot_pais)<0)
         {
             i++;
-            swap_cidades(vec,i,j);
+            if(j!=i)swap_cidades(vec,i,j);
         }else if(strcmp(vec->elementos[j].pais,pivot_pais)==0){
               if(vec->elementos[j].populacao<pivot_populacao){
                 i++;
-                swap_cidades(vec,i,j);
+                if(j!=i)swap_cidades(vec,i,j);
               }
         }
     }
   }
 
-  swap_cidades(vec,i+1,fim);
+  if((i+1)!=fim)swap_cidades(vec,i+1,fim);
   return i+1;
 }
 
