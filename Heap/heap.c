@@ -11,7 +11,21 @@
 
 heap* heap_nova(int capacidade)
 {
-  return NULL;
+   heap *h = malloc(sizeof(heap));
+  
+  if(h==NULL) return NULL;
+
+  h->tamanho=0;
+  h->capacidade=capacidade;
+
+  h->elementos=malloc((capacidade+1)*sizeof(elemento*));
+
+  if(h->elementos==NULL){
+    free(h);
+    return NULL;
+  }
+  
+  return h;
 }
 
 int heap_insere(heap * h, const char * texto, int prioridade)
