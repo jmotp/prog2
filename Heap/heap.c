@@ -11,30 +11,45 @@
 
 heap* heap_nova(int capacidade)
 {
-   heap *h = malloc(sizeof(heap));
-  
-  if(h==NULL) return NULL;
-
-  h->tamanho=0;
-  h->capacidade=capacidade;
-
-  h->elementos=malloc((capacidade+1)*sizeof(elemento*));
-
-  if(h->elementos==NULL){
-    free(h);
-    return NULL;
-  }
-  
-  return h;
+	heap *h = malloc(sizeof(heap));
+  	if(h==NULL) return NULL;
+  	h->tamanho=0;
+  	h->capacidade=capacidade;
+  	h->elementos=malloc((capacidade+1)*sizeof(elemento*));
+  	if(h->elementos==NULL){
+    	free(h);
+    	return NULL;
+  	}
+ 	return h;
 }
 
 int heap_insere(heap * h, const char * texto, int prioridade)
 {
-  return 0;
+	if(h == NULL ) return (int)NULL;
+  	if(h->tamanho+1>h->capacidade)return 0;
+	h->tamanho++;
+	elemento * new=malloc(sizeof(elemento));
+	new->prioridade=prioridade;
+	new->valor = malloc((strlen(texto)+1)*sizeof(char));
+	strcpy(new->valor,texto);
+	//printf("%s %d\n",new->valor,new->prioridade);
+	int i;
+	for(i = h->tamanho; (i>1) && h->elementos[i/2]->prioridade > new->prioridade;i/=2){
+		h->elementos[i] = h->elementos[i/2];
+	}
+	
+	h->elementos[i]=new;
+  	return 1;
 }
 
 void heap_apaga(heap *h)
 {
+	for(int i = 0; i < h->tamanho;i++){
+		free(h->elementos[i]->valor);
+		free(h->elementos[i]);
+	}
+	free(h);
+	
   return;
 }
 
@@ -45,7 +60,11 @@ char* heap_remove(heap * h)
 
 heap* heap_constroi(elemento* v, int n_elementos)
 {
-  return NULL;
+	heap * h = heap_nova(n_elementos);
+	for(int i = 0 ; i < n_elementos;i++){
+		heap_insere(h,v[i].valor,v[i].prioridade);
+	}
+  return h;
 }
 
 int heap_altera_prioridade(heap *h, int indice, int nova_prioridade)
@@ -57,7 +76,7 @@ void mostraHeap(heap *h, int indice)
 {
   int i, nivel = 0;
   
-  if (indice < h->tamanho)
+  if (indice <= h->tamanho)
   {
     i = indice;
     while(i > 1)
