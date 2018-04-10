@@ -15,7 +15,7 @@ heap* heap_nova(int capacidade)
   	if(h==NULL) return NULL;
   	h->tamanho=0;
   	h->capacidade=capacidade;
-  	h->elementos=malloc((capacidade+1)*sizeof(elemento*));
+  	h->elementos=calloc(capacidade+1,sizeof(elemento*));
   	if(h->elementos==NULL){
     	free(h);
     	return NULL;
@@ -28,9 +28,9 @@ int heap_insere(heap * h, const char * texto, int prioridade)
 	if(h == NULL ) return (int)NULL;
   	if(h->tamanho+1>h->capacidade)return 0;
 	h->tamanho++;
-	elemento * new=malloc(sizeof(elemento));
+	elemento * new=calloc(1,sizeof(elemento));
 	new->prioridade=prioridade;
-	new->valor = malloc((strlen(texto)+1)*sizeof(char));
+	new->valor = calloc((strlen(texto)+1),sizeof(char));
 	strcpy(new->valor,texto);
 	//printf("%s %d\n",new->valor,new->prioridade);
 	int i;
@@ -44,10 +44,11 @@ int heap_insere(heap * h, const char * texto, int prioridade)
 
 void heap_apaga(heap *h)
 {
-	for(int i = 0; i < h->tamanho;i++){
-		free(h->elementos[i]->valor);
+	for(int i = 0; i <=h->tamanho;i++){
+		if(i!=0)free(h->elementos[i]->valor);
 		free(h->elementos[i]);
 	}
+	free(h->elementos);
 	free(h);
 	
   return;
