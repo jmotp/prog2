@@ -34,7 +34,7 @@ int heap_insere(heap * h, const char * texto, int prioridade)
 	strcpy(new->valor,texto);
 	//printf("%s %d\n",new->valor,new->prioridade);
 	int i;
-	for(i = h->tamanho; (i>1) && h->elementos[i/2]->prioridade > new->prioridade;i/=2){
+	for(i = h->tamanho; (i>1) && h->elementos[i/2]->prioridade > new->prioridade;i = i/2){
 		h->elementos[i] = h->elementos[i/2];
 	}
 	
@@ -56,7 +56,27 @@ void heap_apaga(heap *h)
 
 char* heap_remove(heap * h)
 {
-  return NULL;
+	char * save;
+	save = h->elementos[1]->valor;
+	int i = 2;
+	if(h->tamanho==0)return NULL;
+	while(i<h->tamanho){
+		if(h->elementos[i]->prioridade<h->elementos[h->tamanho]->prioridade){
+			if(h->elementos[i]->prioridade<h->elementos[i+1]->prioridade){
+				h->elementos[i/2]=h->elementos[i];
+			}else{
+				h->elementos[i/2]=h->elementos[i+1];
+				i++;
+			}
+		}else{
+			h->elementos[i/2]=h->elementos[h->tamanho];
+			break;
+		}
+		i=i*2;
+		
+	}
+	h->tamanho--;
+  return save;
 }
 
 heap* heap_constroi(elemento* v, int n_elementos)
