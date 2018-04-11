@@ -11,21 +11,23 @@
 
 heap* heap_nova(int capacidade)
 {
+	if(capacidade<0) return NULL;
+	
 	heap *h = malloc(sizeof(heap));
-  	if(h==NULL) return NULL;
-  	h->tamanho=0;
-  	h->capacidade=capacidade;
-  	h->elementos=calloc(capacidade+1,sizeof(elemento*));
-  	if(h->elementos==NULL){
-    	free(h);
-    	return NULL;
-  	}
+ 	if(h==NULL) return NULL;
+ 	h->tamanho=0;
+ 	h->capacidade=capacidade;
+ 	h->elementos=calloc(capacidade+1,sizeof(elemento*));
+ 	if(h->elementos==NULL){
+   	free(h);
+   	return NULL;
+ 	}
  	return h;
 }
 
 int heap_insere(heap * h, const char * texto, int prioridade)
 {
-	if(h == NULL ) return (int)NULL;
+	if(h == NULL || texto==NULL || prioridade <=0) return (int)NULL;
   	if(h->tamanho+1>h->capacidade)return 0;
 	h->tamanho++;
 	elemento * new=calloc(1,sizeof(elemento));
@@ -44,6 +46,8 @@ int heap_insere(heap * h, const char * texto, int prioridade)
 
 void heap_apaga(heap *h)
 {
+	if(h==NULL) return;
+
 	for(int i = 0; i <=h->tamanho;i++){
 		if(i!=0)free(h->elementos[i]->valor);
 		free(h->elementos[i]);
@@ -56,31 +60,47 @@ void heap_apaga(heap *h)
 
 char* heap_remove(heap * h)
 {
-	char * save;
-	save = h->elementos[1]->valor;
-	int i = 2;
-	if(h->tamanho==0)return NULL;
-	while(i<h->tamanho){
-		if(h->elementos[i]->prioridade<h->elementos[h->tamanho]->prioridade){
-			if(h->elementos[i]->prioridade<h->elementos[i+1]->prioridade){
-				h->elementos[i/2]=h->elementos[i];
-			}else{
-				h->elementos[i/2]=h->elementos[i+1];
-				i++;
+	if(h==NULL || h->tamanho==0) return NULL;
+
+	char * save = malloc(strlen(h->elementos[1]->valor)+1);
+	strcpy(save,h->elementos[1]->valor);
+	
+	free(h->elementos[1]->valor);
+	free(h->elementos[1]);
+
+	int i = 1;
+	while(i*2<=h->tamanho){
+		
+		if(i*2==h->tamanho){
+			if(h->elementos[i*2]->prioridade < h->elementos[h->tamanho]->prioridade){
+				h->elementos[i]=h->elementos[i*2];
+				i*=2;
 			}
-		}else{
-			h->elementos[i/2]=h->elementos[h->tamanho];
 			break;
 		}
-		i=i*2;
-		
+		else if(h->elementos[i*2]->prioridade < h->elementos[h->tamanho]->prioridade || h->elementos[i*2+1]->prioridade < h->elementos[h->tamanho]->prioridade){
+			if(h->elementos[i*2+1]->prioridade < h->elementos[i*2]->prioridade){
+				h->elementos[i]=h->elementos[i*2+1];
+				i=i*2+1;
+			}
+			else{
+				h->elementos[i]=h->elementos[i*2];
+				i*=2;
+			}
+		}
+		else break;
 	}
+
+	h->elementos[i]=h->elementos[h->tamanho];
+
 	h->tamanho--;
-  return save;
+	return save;
 }
 
 heap* heap_constroi(elemento* v, int n_elementos)
 {
+	if(v==NULL || n_elementos <0) return NULL;
+
 	heap * h = heap_nova(n_elementos);
 	for(int i = 0 ; i < n_elementos;i++){
 		heap_insere(h,v[i].valor,v[i].prioridade);
@@ -90,7 +110,44 @@ heap* heap_constroi(elemento* v, int n_elementos)
 
 int heap_altera_prioridade(heap *h, int indice, int nova_prioridade)
 {
-  return -1;
+	if(h==NULL || h->tamanho<=0 || indice <1 || nova_prioridade <1) return -1;
+
+	int i=indice;
+	elemento *tmp=h->elementos[indice];
+	tmp->prioridade=nova_prioridade;
+	
+	if(h->elementos[indice]->prioridade < h->elementos[indice/2]->prioridade){
+		
+		for(i = indice; (i>1) && h->elementos[i/2]->prioridade > nova_prioridade;i = i/2){
+			h->elementos[i] = h->elementos[i/2];
+		}
+		
+		h->elementos[i]=tmp;
+	}	
+
+	else if (h->elementos[indice]->prioridade > h->elementos[indice/2]->prioridade){
+
+		for(i=indice; i*2+1<=h->tamanho || i*2==h->tamanho;){
+			
+			if(nova_prioridade < h->elementos[i*2]->prioridade){
+				if(i*2==h->tamanho) break;
+				else if (nova_prioridade < h->elementos[i*2+1]->prioridade) break;
+			}
+
+			if(h->elementos[i*2]->prioridade < h->elementos[i*2+1]->prioridade){
+				h->elementos[i]=h->elementos[i*2];
+				i*=2;
+			}
+			else {
+				h->elementos[i]=h->elementos[i*2+1];
+				i=i*2+1;
+			}
+		}
+
+		h->elementos[i]=tmp;
+	}
+
+  return 1;
 }
 
 void mostraHeap(heap *h, int indice)
