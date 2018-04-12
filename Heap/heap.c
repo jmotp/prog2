@@ -108,7 +108,7 @@ heap* heap_constroi(elemento* v, int n_elementos)
 
 	heap * h = heap_nova(n_elementos);
 	for(int i = 0 ; i < n_elementos;i++){
-		heap_insere(h,v[i].valor,v[i].prioridade);
+		if(heap_insere(h,v[i].valor,v[i].prioridade)==0) return NULL;
 	}
   return h;
 }
