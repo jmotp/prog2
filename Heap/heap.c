@@ -19,16 +19,16 @@ heap* heap_nova(int capacidade)
  	h->capacidade=capacidade;
  	h->elementos=calloc(capacidade+1,sizeof(elemento*));
  	if(h->elementos==NULL){
-   	free(h);
-   	return NULL;
+   		free(h);
+   		return NULL;
  	}
  	return h;
 }
 
 int heap_insere(heap * h, const char * texto, int prioridade)
 {
-	if(h == NULL || texto==NULL || prioridade <=0) return (int)NULL;
-  	if(h->tamanho+1>h->capacidade)return 0;
+	if(h == NULL || texto==NULL ) return (int)NULL;
+  	if(h->tamanho+1>h->capacidade) return 0;
 	h->tamanho++;
 	elemento * new=calloc(1,sizeof(elemento));
 	new->prioridade=prioridade;
@@ -67,6 +67,11 @@ char* heap_remove(heap * h)
 	
 	free(h->elementos[1]->valor);
 	free(h->elementos[1]);
+
+	if(h->tamanho==1){
+		h->tamanho=0;
+		return save;
+	}
 
 	int i = 1;
 	while(i*2<=h->tamanho){
@@ -110,7 +115,7 @@ heap* heap_constroi(elemento* v, int n_elementos)
 
 int heap_altera_prioridade(heap *h, int indice, int nova_prioridade)
 {
-	if(h==NULL || h->tamanho<=0 || indice <1 || nova_prioridade <1) return -1;
+	if(h==NULL || h->tamanho<=0 || indice<1 ) return -1;
 
 	int i=indice;
 	elemento *tmp=h->elementos[indice];
@@ -120,7 +125,7 @@ int heap_altera_prioridade(heap *h, int indice, int nova_prioridade)
 		
 		for(i = indice; (i>1) && h->elementos[i/2]->prioridade > nova_prioridade;i = i/2){
 			h->elementos[i] = h->elementos[i/2];
-		}
+		} 
 		
 		h->elementos[i]=tmp;
 	}	
