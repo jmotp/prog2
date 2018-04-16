@@ -62,10 +62,8 @@ char* heap_remove(heap * h)
 {
 	if(h==NULL || h->tamanho==0) return NULL;
 
-	char * save = malloc(strlen(h->elementos[1]->valor)+1);
-	strcpy(save,h->elementos[1]->valor);
-	
-	free(h->elementos[1]->valor);
+	char *save = h->elementos[1]->valor;
+
 	free(h->elementos[1]);
 
 	if(h->tamanho==1){
@@ -115,7 +113,7 @@ heap* heap_constroi(elemento* v, int n_elementos)
 
 int heap_altera_prioridade(heap *h, int indice, int nova_prioridade)
 {
-	if(h==NULL || h->tamanho<=0 || indice<1 ) return -1;
+	if(h==NULL || h->tamanho<=0 || indice<1 || indice > h->tamanho) return -1;
 
 	int i=indice;
 	elemento *tmp=h->elementos[indice];
