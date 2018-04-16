@@ -27,7 +27,7 @@ heap* heap_nova(int capacidade)
 
 int heap_insere(heap * h, const char * texto, int prioridade)
 {
-	if(h == NULL || texto==NULL ) return (int)NULL;
+	if(h == NULL || texto==NULL ) return 0;
   	if(h->tamanho+1>h->capacidade) return 0;
 	h->tamanho++;
 	elemento * new=calloc(1,sizeof(elemento));
@@ -104,7 +104,9 @@ heap* heap_constroi(elemento* v, int n_elementos)
 {
 	if(v==NULL || n_elementos <0) return NULL;
 
-	heap * h = heap_nova(n_elementos);
+	heap * h=heap_nova(n_elementos);
+	if(h==NULL) return NULL;
+	
 	for(int i = 0 ; i < n_elementos;i++){
 		if(heap_insere(h,v[i].valor,v[i].prioridade)==0) return NULL;
 	}
