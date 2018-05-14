@@ -59,7 +59,7 @@ int main(void)
         ERROR("Erro ao inserir em heap.");
     }
   
-    /* mostraHeap(h, 1); */ 
+     mostraHeap(h, 1);  
    
     printf("Numero de elementos: %d\n", h->tamanho);
 
