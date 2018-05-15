@@ -23,11 +23,12 @@ int insere_elemento(pilha * p,int x , int y, char terreno){
 }
 
 int pop_elemento(pilha * p){
-    if(p->top = NULL)return 0;
+    if(p->top == NULL)return 0;
     elemento_pilha * elem = p->top;
     p->top = elem->next;
-    p->tamanho --;
     free(elem);
+    p->tamanho --;
+    
     return 1;
 }
 
