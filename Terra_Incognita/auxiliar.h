@@ -1,6 +1,6 @@
-/* Biblioteca de funções auxiliares
-/* Trabalho 3 de Programação 2017/2018
-/* Copyright João Pinheiro e Diogo Oliveira
+/* Biblioteca de funções auxiliares */
+/* Trabalho 3 de Programação 2017/2018 */
+/* Copyright João Pinheiro e Diogo Oliveira */
 /* 1MIEEC07 - FEUP */ 
 
 typedef struct _elemento_pilha{

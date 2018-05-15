@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
           NOTA: primeiros parametros deverao ser argc e argv */
       
       intro(argc,argv,&nExplorador,positio);
-      realloc(positio,nExplorador * 2 * sizeof(int));
+      //realloc(positio,nExplorador * 2 * sizeof(int));
       printf("%d\n",nExplorador);
       for(int i = 0  ; i < nExplorador; i++){
             printf("%d %d\n",positio[i][0],positio[i][1]);
@@ -86,6 +86,8 @@ int main(int argc, char *argv[])
             free(mapa[i]);
       }
       free(mapa);
+
+      del_pilha(pilha_coordenadas);
 
     return 0;
 }
