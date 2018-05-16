@@ -6,6 +6,7 @@
 
 pilha * cria_pilha(){
     pilha * nova = (pilha *) malloc(sizeof(pilha));
+    if (nova==NULL) return NULL;
     nova->top = NULL;
     nova-> tamanho =0;
     return nova;
@@ -13,6 +14,7 @@ pilha * cria_pilha(){
 
 int insere_elemento(pilha * p,int x , int y, char terreno){
     elemento_pilha * elem = (elemento_pilha*) malloc(sizeof(elemento_pilha));
+    if (elem==NULL || p==NULL) return 0;
     elem->next = p->top;
     p->tamanho ++ ;
     elem->x = x;
@@ -23,7 +25,7 @@ int insere_elemento(pilha * p,int x , int y, char terreno){
 }
 
 int pop_elemento(pilha * p){
-    if(p->top == NULL)return 0;
+    if(p->top == NULL || p->tamanho==0) return 0;
     elemento_pilha * elem = p->top;
     p->top = elem->next;
     free(elem);
