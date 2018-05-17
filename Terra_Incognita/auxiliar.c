@@ -25,7 +25,7 @@ int insere_elemento(pilha * p,int x , int y, char terreno){
 }
 
 int pop_elemento(pilha * p){
-    if(p->top == NULL || p->tamanho==0) return 0;
+    if(p==NULL || p->top == NULL || p->tamanho==0) return 0;
     elemento_pilha * elem = p->top;
     p->top = elem->next;
     free(elem);
@@ -35,6 +35,7 @@ int pop_elemento(pilha * p){
 }
 
 void del_pilha(pilha * p){
+    if(p==NULL) return;
     for(int i = 0;i < p->tamanho;i++){
         pop_elemento(p);
     }
@@ -42,6 +43,7 @@ void del_pilha(pilha * p){
 }
 
 void print_pilha(pilha * p){
+    if(p==NULL) return;
     elemento_pilha * elem = p->top;
     for( int i = 0 ; i < p->tamanho;i++){
         printf("%d %d %c\n",elem->x,elem->y,elem->terreno);

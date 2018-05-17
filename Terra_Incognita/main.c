@@ -9,8 +9,8 @@ char ** mapa;
 int mapa_pos(int x, int y)
 {
     /* devolve tipo de terreno na posicao x,y */
+    if(mapa[x][y]<0||mapa[x][y]>4) return TERRA_INCOGNITA;
     return mapa[x][y];
-    return TERRA_INCOGNITA;
 }
 
 
@@ -53,6 +53,7 @@ int main(int argc, char *argv[])
                         positio[id][0]++;
                         break;                
             }
+            if(typus>4||typus<0) return 0;
             if(insere_elemento(pilha_coordenadas,positio[id][0],positio[id][1],typus)==0) return 0;
             if(positio[id][0]<minh)minh = positio[id][0];
             if(positio[id][0]>maxh)maxh = positio[id][0];
