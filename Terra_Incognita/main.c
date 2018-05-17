@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
           enquanto existem movimentacoes a realizar */
       int id,typus;
       char save;
-      int minh = 1000000, maxh= -1000000, maxv = -10000000, minv = 1000000;
+      int minh = 2147483647, maxh= -2147483648, maxv = -2147483648, minv = 2147483647;
       pilha * pilha_coordenadas = cria_pilha();
       if(pilha_coordenadas==NULL) return 0;
 
