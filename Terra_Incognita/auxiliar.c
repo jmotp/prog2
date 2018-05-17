@@ -43,7 +43,7 @@ void del_pilha(pilha * p){
 }
 
 void print_pilha(pilha * p){
-    if(p==NULL) return;
+    if(p==NULL || p->top==NULL) return;
     elemento_pilha * elem = p->top;
     for( int i = 0 ; i < p->tamanho;i++){
         printf("%d %d %c\n",elem->x,elem->y,elem->terreno);
