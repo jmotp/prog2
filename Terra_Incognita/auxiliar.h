@@ -3,27 +3,26 @@
 /* Copyright João Pinheiro e Diogo Oliveira */
 /* 1MIEEC07 - FEUP */ 
 
-typedef struct _elemento_pilha{
-    struct _elemento_pilha * next;
-    int x;
-    int y;
+typedef struct _elemento_table{
+    struct _elemento_table * next;
+    int coord[2];
     char terreno;
-}elemento_pilha;
+}elemento_table;
 
-typedef struct _pilha{
-    elemento_pilha * top;
+typedef struct _table{
+    elemento_table ** tab;
     int tamanho;
-}pilha;
+}table;
 
 
-pilha * cria_pilha();
+table * cria_table();
 
-int insere_elemento(pilha * p,int x , int y, char terreno);
+int insere_elemento(table * p,int x , int y, char terreno);
 
-int pop_elemento(pilha * p);
+int pop_elemento(table * p);
 
-void del_pilha(pilha * p);
+void del_table(table * p);
 
-void print_pilha(pilha * p);
+void print_table(table * p);
 
 
