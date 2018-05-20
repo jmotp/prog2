@@ -41,7 +41,9 @@ typedef struct
 {
 	hash_func *hfunc;		/* apontador para a funcao a ser usada (hash_djbm, hash_krm, ...) */
 	elemento **elementos;	/* vetor de elementos */
-	int tamanho;			/* tamanho do vetor de elementos */
+	int tamanho;
+	int minh;
+	int minv;			/* tamanho do vetor de elementos */
 } tabela_dispersao;
 
 /**

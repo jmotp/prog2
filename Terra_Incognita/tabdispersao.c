@@ -155,10 +155,12 @@ char tabela_valor(tabela_dispersao *td, int *chave)
     int pos = td->hfunc(chave,td->tamanho);
     elemento * el = td->elementos[pos];
     while(el!=NULL){
-        if(el->obj->chave[0] ==chave[0]&& el->obj->chave[1]==chave[1])return el->obj->valor;
+        if(el->obj->chave[0]==chave[0])
+            if(el->obj->chave[1]==chave[1])
+                return el->obj->valor;
         el=el->proximo;
     }
-    return -1;
+    return 0;
 }
 
 int tabela_esvazia(tabela_dispersao *td)
@@ -246,7 +248,7 @@ unsigned long hash_krm(int* chave, int tamanho)
 unsigned long hash_djbm(int* chave, int tamanho)
 {
     
-    int hash = (chave[0] + chave[1]) % tamanho;
+    int hash = (chave[0] * 137 + chave[1]) % tamanho;
     return hash>0?hash:-hash;
 }
 

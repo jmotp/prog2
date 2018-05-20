@@ -11,10 +11,8 @@ int minh,minv;
 int mapa_pos(int x, int y)
 {
 	int chave[2]={x+minh,y+minv};
-	char valor = tabela_valor(table,chave);
-	if(valor==-1)return 0;
-
-	return valor;
+	return tabela_valor(table,chave);
+;
 }
 
 
@@ -91,7 +89,6 @@ int main(int argc, char *argv[])
 	relinquo();
 
 	tabela_apaga(table);
-	printf("hey");
 
 	return 0;
 }
