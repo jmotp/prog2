@@ -121,22 +121,9 @@ int tabela_numelementos(tabela_dispersao *td);
  */
 objeto* tabela_elementos(tabela_dispersao *td, int *n);
 
-/**
- * \brief calcula hash com base na seguinte formula:
- *            hash(i) = hash(i-1) + chave[i]
- *    em que hash(0) = 7
- *
- * \param chave string para a qual se pretende calcular o chave de hash
- * \param tamanho da tabela de dispersão
- * \remark chave[i] e' o caracter no indice de i da chave
- */
-unsigned long hash_krm(int* chave, int tamanho);
 
 /**
- * \brief calcula hash com base na seguinte formula:
- *            hash(i) = hash(i-1)* 31 (+) chave[i]
- *        em que hash(0) = 5347
- *
+ * \brief calcula hash 
  * \param chave string para o qual se pretende calcular o chave de hash
  * \param tamanho da tabela de dispersão
  * \remark chave[i] e' o caracter no indice de i da chave

@@ -34,7 +34,6 @@ int main(int argc, char *argv[])
 		enquanto existem movimentacoes a realizar */
 	int id,typus;
 	char save;
-	int i = 0;
 	minh = 100000000;
 	minv = 100000000;
 	int maxh = -1000000000;
@@ -72,13 +71,6 @@ int main(int argc, char *argv[])
 		
 		//printf("%d\n",i++);
 	};
-	//mostraTabela(table);
-	//printf("H : %d %d V: %d %d\n",maxh, minh ,maxv,minv );
-	//printf("\n");
-	//print_pilha(pilha_coordenadas);
-
-		//printf("%d %d ",maxh-minh+1,maxv-minv+1);
-
 	/* 3) imprime e verifica o mapa
 		NOTA: funcao mapa_pos e' o primeiro das funcoes */
 
