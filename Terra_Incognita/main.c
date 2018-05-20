@@ -83,15 +83,14 @@ int main(int argc, char *argv[])
 
 	/* 3) imprime e verifica o mapa
 		NOTA: funcao mapa_pos e' o primeiro das funcoes */
-		printf("hey");
 
 	tabula(mapa_pos,maxh-minh+1,maxv-minv+1);
 	veritas(mapa_pos,maxh-minh+1,maxv-minv+1);
-	printf("hey");
 
 	/* 4) termina comunicacoes com os exploradores */
 	relinquo();
 
+	tabela_apaga(table);
 	printf("hey");
 
 	return 0;

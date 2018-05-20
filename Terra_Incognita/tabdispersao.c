@@ -246,7 +246,7 @@ unsigned long hash_krm(int* chave, int tamanho)
 unsigned long hash_djbm(int* chave, int tamanho)
 {
     
-    int hash = chave[0]%tamanho;
+    int hash = (chave[0] + chave[1]) % tamanho;
     return hash>0?hash:-hash;
 }
 
